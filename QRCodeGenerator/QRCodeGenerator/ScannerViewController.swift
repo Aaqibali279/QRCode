@@ -12,6 +12,7 @@ import UIKit
 class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     }
     
     func failed() {
+        addBorder(color: .red)
         let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
@@ -64,7 +66,6 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         if (captureSession?.isRunning == false) {
             captureSession.startRunning()
         }
@@ -90,19 +91,26 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             found(code: stringValue)
         }
         
-        dismiss(animated: true)
+        
     }
     
     func found(code: String) {
         print(code)
-        
-        let ac = UIAlertController(title: "Scanning success", message: "Code: \(code)", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            self.navigationController?.popViewController(animated: true)
-        }))
-        DispatchQueue.main.async {
-            self.present(ac, animated: true)
+        addBorder(color: .green)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.dismiss(animated: true)
         }
+    }
+    
+    private func addBorder(color:UIColor){
+        let path = UIBezierPath(rect: view.frame)
+        
+        let layer = CAShapeLayer()
+        layer.lineWidth = 6
+        layer.path = path.cgPath
+        layer.strokeColor = color.cgColor
+        layer.fillColor = UIColor.clear.cgColor
+        view.layer.insertSublayer(layer, at: 1)
     }
     
     override var prefersStatusBarHidden: Bool {

@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     
     @IBAction func scan(_ sender: UIButton) {
         let vc = ScannerViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        present(vc, animated: true)
     }
     
     func generateQRCode(from string: String) -> UIImage? {
