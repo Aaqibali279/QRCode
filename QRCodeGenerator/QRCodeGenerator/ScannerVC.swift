@@ -25,10 +25,17 @@ class ScannerVC: UIViewController {
 extension ScannerVC:QRDelegate{
     func onQrSuccess(value: String) {
         print("CODE:",value)
-        dismiss(animated: true)
+        pop()
     }
     
     func onQrFailure(message: String) {
         print(message)
+        pop()
+    }
+    
+    private func pop(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.dismiss(animated: true)
+        }
     }
 }
