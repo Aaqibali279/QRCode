@@ -95,6 +95,14 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     
     func found(code: String) {
         print(code)
+        
+        let ac = UIAlertController(title: "Scanning success", message: "Code: \(code)", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            self.navigationController?.popViewController(animated: true)
+        }))
+        DispatchQueue.main.async {
+            self.present(ac, animated: true)
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
