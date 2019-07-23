@@ -51,6 +51,38 @@
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="128.57142857142856"/>
         </scene>
+        <!--ScannerVC-->
+        <scene sceneID="PzG-oS-qhC">
+            <objects>
+                <viewController storyboardIdentifier="ScannerVC" id="zJ4-WC-xaU" customClass="ScannerVC" customModule="QRCodeGenerator" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="D3f-eP-CgS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pX9-zD-odc" customClass="QRCodeScannerView" customModule="QRCodeGenerator" customModuleProvider="target">
+                                <rect key="frame" x="16" y="60" width="382" height="443"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="pX9-zD-odc" secondAttribute="height" multiplier="382:443" id="vxw-sb-rX3"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ky9-EP-sk3" firstAttribute="trailing" secondItem="pX9-zD-odc" secondAttribute="trailing" constant="16" id="45P-g1-kr2"/>
+                            <constraint firstItem="pX9-zD-odc" firstAttribute="leading" secondItem="ky9-EP-sk3" secondAttribute="leading" constant="16" id="94O-dj-pjp"/>
+                            <constraint firstItem="pX9-zD-odc" firstAttribute="top" secondItem="ky9-EP-sk3" secondAttribute="top" constant="16" id="DUc-fK-peL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ky9-EP-sk3"/>
+                    </view>
+                    <connections>
+                        <outlet property="scanner" destination="pX9-zD-odc" id="NMh-2b-YPt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O5C-Ho-QSQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1759.4202898550725" y="115.84821428571428"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xo8-2i-Yiw">
             <objects>

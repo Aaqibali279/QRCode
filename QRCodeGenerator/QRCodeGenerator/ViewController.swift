@@ -16,12 +16,10 @@ class ViewController: UIViewController {
         let image = generateQRCode(from: "this is the qr code")
         iv.image = image
         
-        
-        
     }
     
     @IBAction func scan(_ sender: UIButton) {
-        let vc = ScannerViewController()
+        let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ScannerVC") as! ScannerVC
         present(vc, animated: true)
     }
     
