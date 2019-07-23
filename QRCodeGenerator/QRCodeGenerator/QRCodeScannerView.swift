@@ -33,13 +33,13 @@ class QRCodeScannerView:UIView,AVCaptureMetadataOutputObjectsDelegate{
     }
     
     
-    func setUpCamera(){
+    private func setUpCamera(){
         clipsToBounds = true
         backgroundColor = UIColor.black
         captureSession = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else {
-            failed()
+            failed(message:"No Camera availabel")
             return
         }
         let videoInput: AVCaptureDeviceInput
@@ -47,14 +47,14 @@ class QRCodeScannerView:UIView,AVCaptureMetadataOutputObjectsDelegate{
         do {
             videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
         } catch {
-            failed()
+            failed(message: "Camera input error")
             return
         }
         
         if (captureSession.canAddInput(videoInput)) {
             captureSession.addInput(videoInput)
         } else {
-            failed()
+            failed(message: "Camera session error")
             return
         }
         
@@ -66,7 +66,7 @@ class QRCodeScannerView:UIView,AVCaptureMetadataOutputObjectsDelegate{
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = [.qr]
         } else {
-            failed()
+            failed(message: "Camera session error")
             return
         }
         
@@ -78,25 +78,17 @@ class QRCodeScannerView:UIView,AVCaptureMetadataOutputObjectsDelegate{
         captureSession.startRunning()
     }
     
-    func failed() {
-        DispatchQueue.main.async {
-            self.addBorder(color: .red)
-        }
-        delegate?.onQrFailure(message: "qr code failed")
-    }
-    
-    
-    
+   
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        captureSession.stopRunning()
+        stop()
         
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else {
-                failed()
+                failed(message: "No code found")
                 return
             }
             guard let stringValue = readableObject.stringValue else {
-                failed()
+                failed(message: "No data found")
                 return
             }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
@@ -104,12 +96,19 @@ class QRCodeScannerView:UIView,AVCaptureMetadataOutputObjectsDelegate{
         }
     }
     
+    private func failed(message:String) {
+        self.addBorder(color: .red)
+        delegate?.onQrFailure(message: message)
+    }
     
-    
-    func found(code: String) {
+    private func found(code: String) {
         print(code)
         addBorder(color: .green)
         delegate?.onQrSuccess(value: code)
+    }
+    
+    func stop(){
+        captureSession.stopRunning()
     }
     
     private func addBorder(color:UIColor){

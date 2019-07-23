@@ -15,11 +15,17 @@ class ScannerVC: UIViewController {
         super.viewDidLoad()
         scanner.delegate = self
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        scanner.stop()
+    }
 }
 
 extension ScannerVC:QRDelegate{
     func onQrSuccess(value: String) {
         print("CODE:",value)
+        dismiss(animated: true)
     }
     
     func onQrFailure(message: String) {
