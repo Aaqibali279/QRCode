@@ -15,8 +15,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let image = generateQRCode(from: "this is the qr code")
         iv.image = image
+        
+        
+        
     }
     
+    @IBAction func scan(_ sender: UIButton) {
+        let vc = ScannerViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     func generateQRCode(from string: String) -> UIImage? {
         let data = string.data(using: String.Encoding.ascii)
